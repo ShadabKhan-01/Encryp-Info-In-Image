@@ -3,6 +3,7 @@ from flask_cors import CORS
 import numpy as np
 import cv2
 import base64
+from utils import manipulate_pixels  # Import the function
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend-backend communication
@@ -17,7 +18,7 @@ def process_data():
     image = request.files["image"]
 
     # Convert text to binary
-    binary_text = ' '.join(format(ord(char), '08b') for char in text)
+    binary_text = ''.join(format(ord(char), '08b') for char in text)
 
     # Convert image to RGB pixel array
     image_np = np.frombuffer(image.read(), np.uint8)  # Convert image file to NumPy array
@@ -26,9 +27,14 @@ def process_data():
 
     # Convert RGB values to list of lists
     rgb_pixels = img_rgb.tolist()
+    
+    # Call the function to manipulate the pixels
+    modified_pixels = manipulate_pixels(rgb_pixels, binary_text)
+
+    # modified_image = generate_image_from_pixels(modified_pixels)
 
     # Convert image back to Base64 for display on frontend
-    _, img_encoded = cv2.imencode(".png", img_rgb)
+    _, img_encoded = cv2.imencode(".png", modified_pixels)
     img_base64 = base64.b64encode(img_encoded).decode("utf-8")
 
     # Return data as JSON
