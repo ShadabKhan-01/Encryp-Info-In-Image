@@ -20,9 +20,9 @@ export default function getdata() {
       });
 
       const data = await response.json();
-      setOutput();
+      setOutput(Final_text);
     } catch {
-      setOutput("Error while decripting");
+      setOutput("Error:", error);
     }
   };
 
