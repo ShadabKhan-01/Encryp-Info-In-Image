@@ -8,7 +8,7 @@ from utils import manipulate_pixels  # Import the function
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend-backend communication
 
-@app.route("/upload", methods=["POST"])
+@app.route("/generate", methods=["POST"])
 def process_data():
     if "image" not in request.files or "text" not in request.form:
         return jsonify({"error": "Missing image or text"}), 400
@@ -31,16 +31,12 @@ def process_data():
     # Call the function to manipulate the pixels
     modified_pixels = manipulate_pixels(rgb_pixels, binary_text)
 
-    # modified_image = generate_image_from_pixels(modified_pixels)
-
     # Convert image back to Base64 for display on frontend
     _, img_encoded = cv2.imencode(".png", modified_pixels)
     img_base64 = base64.b64encode(img_encoded).decode("utf-8")
 
     # Return data as JSON
     return jsonify({
-        "binary_text": binary_text,
-        "rgb_pixels": rgb_pixels,
         "image_base64": img_base64
     })
 

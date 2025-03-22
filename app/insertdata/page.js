@@ -25,14 +25,12 @@ export default function getdata() {
     formData.append("text", text);  // Append text
 
     try {
-      const response = await fetch("http://localhost:5000/upload", {
+      const response = await fetch("http://localhost:5000/generate", {
         method: "POST",
         body: formData,
       });
 
       const data = await response.json();
-      setBinaryText(data.binary_text);
-      setRgbPixels(data.rgb_pixels);
       setImageUrl(`data:image/png;base64,${data.image_base64}`);
     } catch (error) {
       console.error("Error:", error);
@@ -59,24 +57,10 @@ export default function getdata() {
       </form>
       {/* <p className="mt-4 text-yellow-400">{output}</p> */}
 
-      {binaryText && (
-        <div>
-          <h3>Binary Text:</h3>
-          <p>{binaryText}</p>
-        </div>
-      )}
-
       {imageUrl && (
         <div>
           <h3>Uploaded Image:</h3>
           <img src={imageUrl} alt="Uploaded" style={{ maxWidth: "300px" }} />
-        </div>
-      )}
-
-      {rgbPixels.length > 0 && (
-        <div>
-          <h3>RGB Pixel Data (First 5 Rows):</h3>
-          <pre>{JSON.stringify(rgbPixels.slice(0, 5), null, 2)}</pre>
         </div>
       )}
     </div>
