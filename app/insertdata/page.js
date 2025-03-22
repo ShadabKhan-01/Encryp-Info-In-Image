@@ -4,10 +4,8 @@ import { useState } from "react";
 export default function getdata() {
   const [file, setFile] = useState(null);
   const [text, setText] = useState("");
-  const [binaryText, setBinaryText] = useState("");
-  const [rgbPixels, setRgbPixels] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
-  // const [output, setOutput] = useState("");
+  const [modifiedImage, setModifiedImage] = useState("");
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -15,6 +13,13 @@ export default function getdata() {
 
   const handleTextChange = (e) => {
     setText(e.target.value);
+  };
+
+  const downloadImage = () => {
+    const link = document.createElement("a");
+    link.href = `data:image/png;base64,${modifiedImage}`;
+    link.download = "modified_image.png";
+    link.click();
   };
 
   const handleSubmit = async (e) => {
@@ -31,6 +36,7 @@ export default function getdata() {
       });
 
       const data = await response.json();
+      setModifiedImage(data.image_base64);
       setImageUrl(`data:image/png;base64,${data.image_base64}`);
     } catch (error) {
       console.error("Error:", error);
@@ -59,6 +65,7 @@ export default function getdata() {
 
       {imageUrl && (
         <div>
+          <button onClick={downloadImage}>Download Modified Image</button>
           <h3>Uploaded Image:</h3>
           <img src={imageUrl} alt="Uploaded" style={{ maxWidth: "300px" }} />
         </div>

@@ -1,4 +1,7 @@
+from PIL import Image
 import numpy as np
+from io import BytesIO
+import base64
 
 def manipulate_pixels(rgb_pixels, binary_text):
     """
@@ -41,3 +44,27 @@ def manipulate_pixels(rgb_pixels, binary_text):
     manipulated_pixels = flat_pixels.reshape(np.array(rgb_pixels).shape)
     
     return manipulated_pixels
+
+
+
+def save_image(modified_pixels):
+    """
+    Converts modified pixel array back to image and returns it as a base64 string.
+    
+    Parameters:
+        modified_pixels (list): 3D list of modified RGB pixel values.
+
+    Returns:
+        str: Base64 encoded image data.
+    """
+    modified_array = np.array(modified_pixels, dtype=np.uint8)
+    img = Image.fromarray(modified_array)
+    
+    # Save image to a BytesIO object
+    img_buffer = BytesIO()
+    img.save(img_buffer, format="PNG")
+    
+    # Encode image as base64 string for easy transfer
+    img_base64 = base64.b64encode(img_buffer.getvalue()).decode('utf-8')
+    
+    return img_base64

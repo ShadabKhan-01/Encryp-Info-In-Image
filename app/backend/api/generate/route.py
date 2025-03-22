@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 import base64
 from utils import manipulate_pixels  # Import the function
+from utils import save_image
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend-backend communication
@@ -32,12 +33,11 @@ def process_data():
     modified_pixels = manipulate_pixels(rgb_pixels, binary_text)
 
     # Convert image back to Base64 for display on frontend
-    _, img_encoded = cv2.imencode(".png", modified_pixels)
-    img_base64 = base64.b64encode(img_encoded).decode("utf-8")
+    modified_image_base64 = save_image(modified_pixels)
 
     # Return data as JSON
     return jsonify({
-        "image_base64": img_base64
+        "image_base64": modified_image_base64
     })
 
 if __name__ == "__main__":
