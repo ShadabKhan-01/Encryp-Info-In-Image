@@ -35,6 +35,9 @@ def process_data():
     # Convert image back to Base64 for display on frontend
     modified_image_base64 = save_image(modified_pixels)
 
+    print(text)
+    print(binary_text)
+
     # Return data as JSON
     return jsonify({
         "image_base64": modified_image_base64
