@@ -10,7 +10,7 @@ def extract_binary_from_pixels(original_pixels, modified_pixels):
     binary_text = ""
 
     for i in range(len(original_flat)):
-        if list(modified_flat[i]) == [254, 254, 254]:
+        if (list(modified_flat[i]) == [254, 254, 254] and list(modified_flat[i+1]) == [1, 1, 1]) or (list(original_flat[i]) == [254, 254, 254] and list(original_flat[i+1]) == [1, 1, 1]) :
             break
 
         original_blue = original_flat[i, 2]

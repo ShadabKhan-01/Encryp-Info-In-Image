@@ -39,6 +39,7 @@ def manipulate_pixels(rgb_pixels, binary_text):
     # Mark the end of manipulation with a special flag (R=254, G=254, B=254)
     if pixels_needed < len(flat_pixels):  # Check bounds
         flat_pixels[pixels_needed] = [254, 254, 254]
+        flat_pixels[pixels_needed+1] = [1, 1, 1]
 
     # Reshape back to original image dimensions
     manipulated_pixels = flat_pixels.reshape(np.array(rgb_pixels).shape)
