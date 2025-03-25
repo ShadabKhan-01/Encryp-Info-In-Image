@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
+import Switch from "../component/Switch";
 
 export default function getdata() {
   const [file, setFile] = useState(null);
   const [text, setText] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [modifiedImage, setModifiedImage] = useState("");
+  const [Loading, setLoading] = useState(false)
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -30,6 +32,7 @@ export default function getdata() {
     formData.append("text", text);  // Append text
 
     try {
+      setLoading(true)
       const response = await fetch("http://localhost:5000/generate", {
         method: "POST",
         body: formData,
@@ -37,8 +40,10 @@ export default function getdata() {
 
       const data = await response.json();
       setModifiedImage(data.image_base64);
+      setLoading(false)
       setImageUrl(`data:image/png;base64,${data.image_base64}`);
     } catch (error) {
+      setLoading(false)
       console.error("Error:", error);
     }
   };
@@ -59,13 +64,15 @@ export default function getdata() {
           required
           className="px-4 py-2 mb-4 w-80 rounded bg-gray-700 border border-gray-500"
         />
-        <button type="submit" className="px-6 py-2 bg-green-500 rounded-lg hover:bg-green-600 block">Encrypt</button>
+        <button type="submit" className="cursor-pointer px-6 py-2 bg-green-500 rounded-lg hover:bg-green-600 block">Encrypt</button>
       </form>
       {/* <p className="mt-4 text-yellow-400">{output}</p> */}
-
+      {(Loading) && (
+        <Loader />
+      )}
       {imageUrl && (
         <div>
-          <button onClick={downloadImage}>Download Modified Image</button>
+          <button onClick={downloadImage}><Switch /></button>
           <h3>Uploaded Image:</h3>
           <img src={imageUrl} alt="Uploaded" style={{ maxWidth: "300px" }} />
         </div>

@@ -20,7 +20,7 @@ export default function getdata() {
 
     try {
       setLoading(true)
-      const response = await fetch("http://localhost:5001/get", {
+      const response = await fetch("http://localhost:5000/get", {
         method: "POST",
         body: formData,
       });
@@ -29,6 +29,7 @@ export default function getdata() {
       setLoading(false)
       setOutput(data.Final_text);
     } catch (error) {
+      setLoading(false)
       setOutput(`Error: ${error.message}`);
       console.error("Error:", error);
     }
@@ -79,7 +80,7 @@ export default function getdata() {
             )}
           </section>
         </div>
-        <button type="submit" className="mx-auto px-6 py-2 bg-green-500 rounded-lg hover:bg-green-600">Decrypt & Retrieve</button>
+        <button type="submit" className="cursor-pointer mx-auto px-6 py-2 bg-green-500 rounded-lg hover:bg-green-600">Decrypt & Retrieve</button>
       </form>
       {(Loading) && (
         <Loader />
