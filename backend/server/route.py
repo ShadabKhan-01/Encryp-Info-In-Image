@@ -3,9 +3,7 @@ from flask_cors import CORS
 import numpy as np
 import cv2
 import base64
-from server.utils import manipulate_pixels # Import the function
-from utils import save_image
-from utils import extract_binary_from_pixels, binary_to_text
+from server.utils import manipulate_pixels, save_image, extract_binary_from_pixels, binary_to_text
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend-backend communication
