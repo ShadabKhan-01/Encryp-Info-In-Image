@@ -3,7 +3,7 @@ import { useState } from "react";
 import Card from "../component/Card";
 import Loader from "../component/Loader";
 
-export default function getdata() {
+const Page = () => {
   const [image1, setimage1] = useState()
   const [image2, setimage2] = useState()
   const [imagePreview1, setimagePreview1] = useState()
@@ -91,3 +91,5 @@ export default function getdata() {
     </div>
   );
 }
+
+export default Page;

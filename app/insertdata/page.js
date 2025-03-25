@@ -3,7 +3,7 @@ import { useState } from "react";
 import Switch from "../component/Switch";
 import Loader from "../component/Loader";
 
-export default function getdata() {
+const Page = () => {
   const [file, setFile] = useState(null);
   const [text, setText] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -81,3 +81,6 @@ export default function getdata() {
     </div>
   );
 }
+
+
+export default Page;
