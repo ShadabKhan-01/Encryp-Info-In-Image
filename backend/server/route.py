@@ -19,6 +19,8 @@ def process_generate():
     text = request.form["text"]
     image = request.files["image"]
 
+    print("Image and Text Recived for Genrate")
+
     # Convert text to binary
     binary_text = ''.join(format(ord(char), '08b') for char in text)
 
@@ -36,9 +38,6 @@ def process_generate():
     # Convert image back to Base64 for display on frontend
     modified_image_base64 = save_image(modified_pixels)
 
-    print(text)
-    print(binary_text)
-
     # Return data as JSON
     return jsonify({
         "image_base64": modified_image_base64
@@ -53,6 +52,8 @@ def process_get():
     # Get and read images
     image1 = request.files["image1"]
     image2 = request.files["image2"]
+
+    print("2 images Recived for Get")
 
     image_np_1 = np.frombuffer(image1.read(), np.uint8)  # Convert image file to NumPy array
     image_np_2 = np.frombuffer(image2.read(), np.uint8)  # Convert image file to NumPy array
@@ -71,9 +72,6 @@ def process_get():
         # Extract binary and convert to text
         extracted_binary = extract_binary_from_pixels(rgb_pixels_1, rgb_pixels_2)
         text = binary_to_text(extracted_binary)
-
-        print("Extracted Binary:", extracted_binary)
-        print("Decoded Text:", text)
         
         return jsonify({"Final_text": text})
 

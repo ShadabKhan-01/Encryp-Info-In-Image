@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Switch from "../component/Switch";
+import Loader from "../component/Loader";
 
 export default function getdata() {
   const [file, setFile] = useState(null);
@@ -33,7 +34,7 @@ export default function getdata() {
 
     try {
       setLoading(true)
-      const response = await fetch("http://localhost:5000/generate", {
+      const response = await fetch(process.env.NEXT_PUBLIC_Generate_Host, {
         method: "POST",
         body: formData,
       });
