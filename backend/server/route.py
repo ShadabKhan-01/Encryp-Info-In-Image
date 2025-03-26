@@ -7,7 +7,7 @@ import gc
 from server.utils import manipulate_pixels, save_image, extract_binary_from_pixels, binary_to_text
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://imagecrypt.vercel.app"}})  # Enable CORS for frontend-backend communication
+CORS(app, resources={r"/*": {"origins": ["https://imagecrypt.vercel.app/","https://encryp-info-in-image-git-main-shadabkhan-01s-projects.vercel.app/","https://encryp-info-in-image-shadabkhan-01s-projects.vercel.app/"]}})  # Enable CORS for frontend-backend communication
 
 MAX_IMAGE_SIZE = 10 * 1024 * 1024  # 5 MB
 
@@ -90,23 +90,23 @@ def process_get():
     if "image1" not in request.files or "image2" not in request.files:
         return jsonify({"error": "Missing images"}), 400
 
-    # Get and read images
-    image1 = request.files["image1"]
-    image2 = request.files["image2"]
-
-    print("2 images Recived for Get")
-
-    img_rgb_1 = read_and_decode_image(image1)
-    img_rgb_2 = read_and_decode_image(image2)
-
-    del image1, image2
-    gc.collect()
-
-    # Convert RGB values to list of lists
-    rgb_pixels_1 = img_rgb_1.tolist()
-    rgb_pixels_2 = img_rgb_2.tolist()
-
     try:
+        # Get and read images
+        image1 = request.files["image1"]
+        image2 = request.files["image2"]
+
+        print("2 images Recived for Get")
+
+        img_rgb_1 = read_and_decode_image(image1)
+        img_rgb_2 = read_and_decode_image(image2)
+
+        del image1, image2
+        gc.collect()
+
+        # Convert RGB values to list of lists
+        rgb_pixels_1 = img_rgb_1.tolist()
+        rgb_pixels_2 = img_rgb_2.tolist()
+
         # Extract binary and convert to text
         extracted_binary = extract_binary_from_pixels(rgb_pixels_1, rgb_pixels_2)
         text = binary_to_text(extracted_binary)
