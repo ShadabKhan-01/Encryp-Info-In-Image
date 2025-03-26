@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
-import Button from "./component/Button";
+import dynamic from 'next/dynamic';
+
+const Button = dynamic(() => import('./component/Button'), { ssr: false });
 
 export default function Home() {
   return (
