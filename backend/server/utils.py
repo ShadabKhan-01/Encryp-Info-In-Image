@@ -2,6 +2,7 @@ from PIL import Image
 import numpy as np
 from io import BytesIO
 import base64
+import gc
 
 def manipulate_pixels(rgb_pixels, binary_text):
     """
@@ -35,6 +36,8 @@ def manipulate_pixels(rgb_pixels, binary_text):
             else:
                 flat_pixels[i, 2] += 1
         # Move to the next bit and next pixel
+        del i 
+        gc.collect()
 
     # Mark the end of manipulation with a special flag (R=254, G=254, B=254)
     if pixels_needed < len(flat_pixels):  # Check bounds
@@ -43,7 +46,11 @@ def manipulate_pixels(rgb_pixels, binary_text):
 
     # Reshape back to original image dimensions
     manipulated_pixels = flat_pixels.reshape(np.array(rgb_pixels).shape)
-    
+
+    del binary_length, pixels_needed, flat_pixels, rgb_pixels, binary_text
+    gc.collect()
+
+
     return manipulated_pixels
 
 
@@ -67,6 +74,9 @@ def save_image(modified_pixels):
     
     # Encode image as base64 string for easy transfer
     img_base64 = base64.b64encode(img_buffer.getvalue()).decode('utf-8')
+
+    del modified_pixels, modified_array, img_buffer, img
+    gc.collect()
     
     return img_base64
 
@@ -93,6 +103,12 @@ def extract_binary_from_pixels(original_pixels, modified_pixels):
         else:
             binary_text += "0"
 
+        del i, original_blue, modified_blue
+        gc.collect()
+
+    del original_pixels, modified_pixels, original_flat, modified_flat
+    gc.collect()
+
     return binary_text
 
 
@@ -110,5 +126,8 @@ def binary_to_text(binary_string):
     
     # Convert binary to characters and ignore bad chunks
     decoded_text = ''.join([chr(int(char, 2)) for char in chars if len(char) == 8])
+
+    del binary_string
+    gc.collect()
 
     return decoded_text
