@@ -77,7 +77,7 @@ def process_generate():
     modified_image_base64 = save_image(modified_pixels)
 
     # Clean up memory after processing
-        cleanup_images(img_rgb, modified_pixels)
+    cleanup_images(img_rgb, modified_pixels)
 
     # Return data as JSON
     return jsonify({
