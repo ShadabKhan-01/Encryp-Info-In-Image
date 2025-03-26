@@ -6,7 +6,7 @@ import base64
 from server.utils import manipulate_pixels, save_image, extract_binary_from_pixels, binary_to_text
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for frontend-backend communication
+CORS(app, resources={r"/*": {"origins": "https://imagecrypt.vercel.app"}})  # Enable CORS for frontend-backend communication
 
 @app.route("/generate", methods=["POST"])
 def process_generate():
