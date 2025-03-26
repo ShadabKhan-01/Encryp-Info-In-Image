@@ -88,6 +88,9 @@ def extract_binary_from_pixels(original_pixels, modified_pixels):
     original_flat = np.array(original_pixels).reshape(-1, 3)
     modified_flat = np.array(modified_pixels).reshape(-1, 3)
 
+    del original_pixels, modified_pixels
+    gc.collect()
+
     binary_text = ""
 
     for i in range(len(original_flat)):
@@ -106,7 +109,7 @@ def extract_binary_from_pixels(original_pixels, modified_pixels):
         del i, original_blue, modified_blue
         gc.collect()
 
-    del original_pixels, modified_pixels, original_flat, modified_flat
+    del original_flat, modified_flat
     gc.collect()
 
     return binary_text
@@ -127,7 +130,7 @@ def binary_to_text(binary_string):
     # Convert binary to characters and ignore bad chunks
     decoded_text = ''.join([chr(int(char, 2)) for char in chars if len(char) == 8])
 
-    del binary_string
+    del binary_string, chars
     gc.collect()
 
     return decoded_text

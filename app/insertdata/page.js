@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Switch from "../component/Switch";
 import Loader from "../component/Loader";
+import Card from "../component/Card";
 
 const Page = () => {
   const [file, setFile] = useState(null);
@@ -9,6 +10,7 @@ const Page = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [modifiedImage, setModifiedImage] = useState("");
   const [Loading, setLoading] = useState(false)
+  const [error, setError] = useState()
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -46,6 +48,7 @@ const Page = () => {
     } catch (error) {
       setLoading(false)
       console.error("Error:", error);
+      setError("Error:",error)
     }
   };
 
@@ -77,6 +80,9 @@ const Page = () => {
           <h3>Uploaded Image:</h3>
           <img src={imageUrl} alt="Uploaded" style={{ maxWidth: "300px" }} />
         </div>
+      )}
+      {error && (
+        <Card Text ={error}/>
       )}
     </div>
   );

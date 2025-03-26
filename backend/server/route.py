@@ -34,7 +34,7 @@ def read_and_decode_image(image):
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
     # Clean up memory
-    del image_np, img
+    del image_np, img, image
     gc.collect()
 
     return img_rgb
@@ -63,6 +63,9 @@ def process_generate():
 
     # Read and decode image
     img_rgb = read_and_decode_image(image)
+
+    del image 
+    gc.collect()
 
     # Convert RGB values to list of lists
     rgb_pixels = img_rgb.tolist()
@@ -107,12 +110,12 @@ def process_get():
         rgb_pixels_1 = img_rgb_1.tolist()
         rgb_pixels_2 = img_rgb_2.tolist()
 
+        # Clean up memory after processing
+        cleanup_images(img_rgb_1, img_rgb_2)
+
         # Extract binary and convert to text
         extracted_binary = extract_binary_from_pixels(rgb_pixels_1, rgb_pixels_2)
         text = binary_to_text(extracted_binary)
-
-        # Clean up memory after processing
-        cleanup_images(img_rgb_1, img_rgb_2)
 
         del rgb_pixels_1, rgb_pixels_2
         
